@@ -165,20 +165,32 @@ public class Bank {
     }
 
     public void withdrawAll(Account current) {
-
-        System.out.println("Withdrawing total amount of $ " + current.withdraw(current.getBalance()));
+        double total = current.getBalance();
+        if(total > 0){
+            current.withdraw(total);
+            System.out.println("The total amount of $" + total + " has been withdrawn from your account. ");
+        }else{
+            System.out.println("You do not have enough money for your withdrawal amount. ");
+        }
+       // System.out.println("Withdrawing total amount of $ " + current.withdraw(current.getBalance()));
     }
 
     public void closeAccount(Account current) {
+        boolean found = false;
         for (int i = 0; i < accounts.length; ++i) {
-            if (accounts[i].getAccountNumber().equals(current.getAccountNumber())) {
+            if (accounts[i] != null && accounts[i].getAccountNumber().equals(current.getAccountNumber())) {
                 for (int j = i; j < accounts.length - 1; ++j) {
                     accounts[j] = accounts[j + 1];
                 }
                 accounts[accounts.length - 1] = null;
                 System.out.println("Account successfully closed. ");
+                found = true;
+                break;
             }
         }
-        System.exit(0);
+        if (!found) {
+            System.out.println("Account not found. Unable to close.");
+        }
+    System.exit(0);
     }
 }
